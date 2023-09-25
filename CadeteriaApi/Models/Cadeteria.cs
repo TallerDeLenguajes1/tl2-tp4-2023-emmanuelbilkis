@@ -22,9 +22,9 @@ namespace _Cadeteria
         {
             if (cadeteria == null)
             {
-                cadeteria = accesoDatosCadeteria.Obtener("");
-                cadeteria.Pedidos = accesoDatosPedidos.Obtener("");
-                cadeteria.Cadetes = accesoDatosCadetes.Obtener("");
+                cadeteria = accesoDatosCadeteria.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadeteria.json");
+                cadeteria.Pedidos = accesoDatosPedidos.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Pedidos.json");
+                cadeteria.Cadetes = accesoDatosCadetes.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadetes.json");
             }
             return cadeteria;
         }
