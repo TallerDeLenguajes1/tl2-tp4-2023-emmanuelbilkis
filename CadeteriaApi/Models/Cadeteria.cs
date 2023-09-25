@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CadeteriaAPI;
+using CadeteriaAPI.AccesoData;
 
 namespace _Cadeteria
 {
@@ -16,24 +17,21 @@ namespace _Cadeteria
         private List<Cadete> cadetes;
         private List<Pedido> pedidos;
         private static Cadeteria cadeteria;
-        // aca agregaria acceso a datos pedidos
-        public static Cadeteria GetCadeteria()
+        private AccesoDatosPedidos accesoDatosPedidos;
+        public static Cadeteria GetCadeteria(AccesoDatosPedidos accesoDatosPedidos, AccesoDatosCadeteria accesoDatosCadeteria, AccesoDatosCadetes accesoDatosCadetes)
         {
             if (cadeteria == null)
             {
-                cadeteria = new Cadeteria();
+                cadeteria = accesoDatosCadeteria.Obtener("");
+                cadeteria.Pedidos = accesoDatosPedidos.Obtener("");
+                cadeteria.Cadetes = accesoDatosCadetes.Obtener("");
             }
             return cadeteria;
         }
         public Cadeteria() 
         {
-            var data = new AccesoDatoCsv();
-            var datosCadeteria = data.GetCadeteria("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaAPI\\Conexion\\cadeteria.csv");
-            this.nombre = datosCadeteria.Nombre;
-            this.Telefono = datosCadeteria.Telefono;
-            var datosCadetes = data.GetCadetes("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaAPI\\Conexion\\cadetes.csv");
-            this.cadetes = datosCadetes;
-            this.Pedidos = new List<Pedido>();
+            this.pedidos = new List<Pedido>();
+            this.cadetes = new List<Cadete>();
         }
 
         public Cadeteria(string nombre, int telefono)
@@ -48,6 +46,11 @@ namespace _Cadeteria
         public int Telefono { get => telefono; set => telefono = value; }
         public List<Cadete> Cadetes { get => cadetes; set => cadetes = value; }
         public List<Pedido> Pedidos { get => pedidos; set => pedidos = value; }
+
+        public void GuardarPedidos(List<Pedido> pedidos)
+        {
+            cadeteria.accesoDatosPedidos.Guardar(pedidos);
+        }
 
         public void CrearPedido(int numeroPedido, string observacionPedido, string nombreCliente, string direccionCliente, int telefonoCliente, string datosReferenciaDireccionCliente) 
         {

@@ -1,5 +1,6 @@
 using _Cadeteria;
 using Microsoft.AspNetCore.Mvc;
+using CadeteriaAPI.AccesoData;
 
 namespace CadeteriaAPI.Controllers
 {
@@ -13,7 +14,10 @@ namespace CadeteriaAPI.Controllers
         public CadeteriaController(ILogger<CadeteriaController> logger)
         {
             _logger = logger;
-            cadeteria = Cadeteria.GetCadeteria();
+            AccesoDatosPedidos accesoDatosPedidos = new AccesoDatosPedidos();
+            AccesoDatosCadeteria accesoDatosCadeteria = new AccesoDatosCadeteria();
+            AccesoDatosCadetes accesoDatosCadetes = new AccesoDatosCadetes();
+            cadeteria = Cadeteria.GetCadeteria(accesoDatosPedidos, accesoDatosCadeteria, accesoDatosCadetes);
         }
 
         [HttpGet(Name = "GetNombre")]
