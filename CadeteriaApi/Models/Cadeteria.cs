@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CadeteriaAPI;
@@ -22,9 +23,11 @@ namespace _Cadeteria
         {
             if (cadeteria == null)
             {
+
                 cadeteria = accesoDatosCadeteria.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadeteria.json");
-                cadeteria.Pedidos = accesoDatosPedidos.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Pedidos.json");
+                cadeteria.accesoDatosPedidos = accesoDatosPedidos;
                 cadeteria.Cadetes = accesoDatosCadetes.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadetes.json");
+                cadeteria.Pedidos = cadeteria.accesoDatosPedidos.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Pedidos.json");
             }
             return cadeteria;
         }
@@ -56,6 +59,7 @@ namespace _Cadeteria
         {
             Pedido pedido = new Pedido(numeroPedido, observacionPedido, nombreCliente, direccionCliente, telefonoCliente, datosReferenciaDireccionCliente);
             cadeteria.Pedidos.Add(pedido);
+            accesoDatosPedidos.Guardar(cadeteria.Pedidos);
         }
    
         public void ReasignarPedido(int idDestino,int numeroPedido) 
@@ -63,16 +67,27 @@ namespace _Cadeteria
             var pedido = BuscarPedidoPorNro(numeroPedido);
             pedido.DesasignarCadete();
             AsignarCadeteAPedido(idDestino,numeroPedido);
-
+            accesoDatosPedidos.Guardar(cadeteria.Pedidos);
         }
 
         public void AsignarCadeteAPedido(int idCadete, int idPedido) 
         {
-            var cadete = BuscarCadetePorID(idCadete);
-            var pedido = BuscarPedidoPorNro(idPedido);
-            pedido.AsignarCadete(cadete);
-            //aca agregaria un acceso a dato pedidos para guardarlo en el json 
+            try
+            {
+                var cadete = BuscarCadetePorID(idCadete);
+                var pedido = BuscarPedidoPorNro(idPedido);
+
+                accesoDatosPedidos.Guardar(cadeteria.Pedidos);
+            }
+            catch (NullReferenceException e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+            
         }
+
+        
         public double CobrarJornalVersionJoin(int idCadete)
         {
             var resultado = Cadetes
@@ -106,16 +121,26 @@ namespace _Cadeteria
             }
         }
 
-        private Cadete BuscarCadetePorID(int idCadete) 
+        public Cadete BuscarCadetePorID(int idCadete) 
         {
-            var cadete  = this.Cadetes.FirstOrDefault(cadete => cadete.Id == idCadete);
+            var cadete  = cadeteria.Cadetes.FirstOrDefault(cadete => cadete.Id == idCadete);
+            if (cadete == null) 
+            {
+              throw new NullReferenceException("No existe el cadete");
+            }
+
             return cadete;
         }
 
-        private Pedido BuscarPedidoPorNro(int nroPedido)
+        public Pedido BuscarPedidoPorNro(int nroPedido)
         {
-            var cadete = this.Pedidos.FirstOrDefault(pedido => pedido.Numero == nroPedido);
-            return cadete;
+            var pedido = cadeteria.Pedidos.FirstOrDefault(pedido => pedido.Numero == nroPedido);
+            if (pedido==null)
+            {
+                throw new NullReferenceException("No existe el pedido");
+            }
+
+            return pedido;
         }
 
         public List<string> GenerarInforme() 
@@ -134,12 +159,14 @@ namespace _Cadeteria
         {
             var pedido = BuscarPedidoPorNro(nroPedido);
             this.Pedidos.Remove(pedido);
+            accesoDatosPedidos.Guardar(cadeteria.Pedidos);
         }
 
         public void CambiarEstadoPedido(int nroPedido)
         {
             var pedido = BuscarPedidoPorNro(nroPedido);
             pedido.CambiarEstado();
+            accesoDatosPedidos.Guardar(cadeteria.Pedidos);
         }
     }
 }

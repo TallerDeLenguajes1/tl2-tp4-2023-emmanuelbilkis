@@ -23,7 +23,15 @@ namespace CadeteriaAPI.Controllers
         [HttpGet(Name = "GetNombre")]
         public ActionResult<string> GetNombre()
         {
-            return Ok(cadeteria.Nombre);
+            if (!String.IsNullOrEmpty(cadeteria.Nombre))
+            {
+                return Ok(cadeteria.Nombre);
+            }
+            else
+            {
+                return BadRequest("Todo mal - caca"); 
+            }
+            
         }
 
         [HttpGet]
@@ -32,6 +40,24 @@ namespace CadeteriaAPI.Controllers
         {
             var cadetes = cadeteria.Cadetes;
             return Ok(cadetes);
+        }
+
+        [HttpGet]
+        [Route("NombreCadete2")]
+        public ActionResult<IEnumerable<Cadete>> GetCadeteNombre(int id)
+        {
+            //var cadetes = cadeteria.Cadetes;
+            var cad = cadeteria.BuscarCadetePorID(id);
+            if (cad is not null)
+            {
+                return Ok("Lo encontramos xdxdxdxd wiiiii");
+            }
+            else
+            {
+                return NotFound("no se encontro nada - caca");  
+            }
+            
+            
         }
 
         [HttpGet]
@@ -57,6 +83,8 @@ namespace CadeteriaAPI.Controllers
             cadeteria.AsignarCadeteAPedido(idCadete,idPedido);
             return Ok();
         }
+
+
 
         [HttpPut]
         [Route("CambiarEstado")]

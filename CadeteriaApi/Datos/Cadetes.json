@@ -1,18 +1,18 @@
 [
   {
-    "ID": 1,
+    "Id": 1,
     "Nombre": "Hector",
     "Direccion": "Laprida 452",
     "Telefono": 2544554
   },
   {
-    "ID": 2,
+    "Id": 2,
     "Nombre": "Martin",
     "Direccion": "Cuba 567",
     "Telefono": 23434
   },
   {
-    "ID": 3,
+    "Id": 3,
     "Nombre": "Lautaro",
     "Direccion": "La Rioja 45",
     "Telefono": 343254324

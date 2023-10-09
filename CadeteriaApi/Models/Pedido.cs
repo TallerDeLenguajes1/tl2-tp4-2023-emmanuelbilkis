@@ -74,7 +74,16 @@ namespace _Cadeteria
         public string GenerarInformePedido()
         {
             string informe = $"Numero:{this.Numero} | Observacion:{this.Observacion} | Estado:{this.Estado}";
-            informe = informe + " | " + Cliente.InformacionCliente() + " | " + Cadete.GetInformacionCadete() ;
+            try
+            {
+                informe = informe + " | " + Cliente.InformacionCliente() + " | " + Cadete.GetInformacionCadete();
+            }
+            catch (Exception)
+            {
+
+                informe = informe + " | " + Cliente.InformacionCliente() + " | " + "Aún no tiene Cadete asignado";
+            }
+            
             return informe;
         }
 

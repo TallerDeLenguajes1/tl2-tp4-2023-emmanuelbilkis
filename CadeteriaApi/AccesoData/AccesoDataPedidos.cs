@@ -10,8 +10,17 @@ namespace CadeteriaAPI.AccesoData
             if (!string.IsNullOrWhiteSpace(path))
             {
                 string textoJson = File.ReadAllText(path);
-                List<Pedido> nuevaLista = JsonSerializer.Deserialize<List<Pedido>>(textoJson);
-                return nuevaLista;
+                try
+                {
+                    List<Pedido> nuevaLista = JsonSerializer.Deserialize<List<Pedido>>(textoJson);
+                    return nuevaLista;
+                }
+                catch (Exception)
+                {
+
+                    List<Pedido> nuevaLista = new List<Pedido>();
+                    return nuevaLista;
+                } 
             }
             else
             {
@@ -21,7 +30,7 @@ namespace CadeteriaAPI.AccesoData
 
         public void Guardar(List<Pedido> datos)
         {
-            string fileName = "Pedidos.json";
+            string fileName = "C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Pedidos.json";
             string jsonString = Serializar(datos);
 
             FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);

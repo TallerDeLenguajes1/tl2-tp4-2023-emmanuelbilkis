@@ -6,31 +6,26 @@ using System.Text;
 using System.Threading.Tasks;
 using CadeteriaAPI;
 
-namespace _Cadeteria
+namespace CadeteriaAPI
 {
     public class Cadete
     {
-        private int id;
-        private string nombre;
-        private string direccion;
-        private int telefono;
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Direccion { get; set; }
+        public int Telefono { get; set; }
+
         public Cadete(int id, string nombre, string direccion, int telefono)
         {
-            this.Id = id;
-            this.Nombre = nombre;
-            this.Direccion = direccion;
-            this.Telefono = telefono;
+            Id = id;
+            Nombre = nombre;
+            Direccion = direccion;
+            Telefono = telefono;
         }
 
-        public int Id { get => id; set => id = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Direccion { get => direccion; set => direccion = value; }
-        public int Telefono { get => telefono; set => telefono = value; }
-
-
-        public string GetInformacionCadete() 
+        public string GetInformacionCadete()
         {
-            string info = $"Cadete: {this.Nombre} - ID: {this.Id}";
+            string info = $"Cadete: {Nombre} - ID: {Id}";
             return info;
         }
     }
