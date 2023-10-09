@@ -29,7 +29,7 @@ namespace CadeteriaAPI.Controllers
             }
             else
             {
-                return BadRequest("Todo mal - caca"); 
+                return BadRequest("Todo mal"); 
             }
             
         }
@@ -54,7 +54,7 @@ namespace CadeteriaAPI.Controllers
             }
             else
             {
-                return NotFound("no se encontro nada - caca");  
+                return NotFound("no se encontro nada");  
             }
             
             
@@ -84,8 +84,6 @@ namespace CadeteriaAPI.Controllers
             return Ok();
         }
 
-
-
         [HttpPut]
         [Route("CambiarEstado")]
         public ActionResult CambiarEstado(int idPedido)
@@ -102,6 +100,51 @@ namespace CadeteriaAPI.Controllers
             return Ok();
         }
 
-        // queda mejorar cuando hace referencia a algo nulo. Mejorar el informe tamb
+        [HttpGet]
+        [Route("GetPedido")]
+        public ActionResult<Pedido> GetPedido(int numero)
+        {
+            var pedido = cadeteria.BuscarPedidoPorNro(numero);
+            if (pedido is not null)
+            {
+                return Ok(pedido);
+            }
+            else
+            {
+                return NotFound("No existe tal pedido");  
+            }
+            
+        }
+
+        [HttpGet]
+        [Route("GetCadete")]
+        public ActionResult<Cadete> GetCadete(int id)
+        {
+            var cadete = cadeteria.BuscarCadetePorID(id);
+            if (cadete is not null)
+            {
+                return Ok(cadete);
+            }
+            else
+            {
+                return NotFound("No existe el cadete");
+            }
+
+        }
+
+        [HttpPost]
+        [Route("AgregarCadete")]
+        public ActionResult AgrregarCadete(Cadete cadete)
+        {
+            if (cadete is not null)
+            {
+                cadeteria.agregarCadete(cadete);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("No es valido el cadete");    
+            }   
+        }
     }
 }

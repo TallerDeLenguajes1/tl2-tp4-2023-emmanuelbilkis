@@ -18,5 +18,27 @@ namespace CadeteriaAPI.AccesoData
                 throw new ArgumentNullException();
             }
         }
+
+
+        public void Guardar(List<Cadete> datos)
+        {
+            string fileName = "C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadetes.json";
+            string jsonString = Serializar(datos);
+
+            FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);
+            using (StreamWriter strwriter = new StreamWriter(fs))
+            {
+                strwriter.WriteLine(jsonString);
+                strwriter.Close();
+            }
+        }
+
+        private string Serializar(List<Cadete> cadetes)
+        {
+            string jsonString = JsonSerializer.Serialize<List<Cadete>>(cadetes);
+            return jsonString;
+        }
+
+
     }
 }

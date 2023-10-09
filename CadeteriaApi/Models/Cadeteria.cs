@@ -19,6 +19,7 @@ namespace _Cadeteria
         private List<Pedido> pedidos;
         private static Cadeteria cadeteria;
         private AccesoDatosPedidos accesoDatosPedidos;
+        private AccesoDatosCadetes accesoDatosCadetes;
         public static Cadeteria GetCadeteria(AccesoDatosPedidos accesoDatosPedidos, AccesoDatosCadeteria accesoDatosCadeteria, AccesoDatosCadetes accesoDatosCadetes)
         {
             if (cadeteria == null)
@@ -26,7 +27,8 @@ namespace _Cadeteria
 
                 cadeteria = accesoDatosCadeteria.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadeteria.json");
                 cadeteria.accesoDatosPedidos = accesoDatosPedidos;
-                cadeteria.Cadetes = accesoDatosCadetes.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadetes.json");
+                cadeteria.accesoDatosCadetes = accesoDatosCadetes;
+                cadeteria.Cadetes = cadeteria.accesoDatosCadetes.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Cadetes.json");
                 cadeteria.Pedidos = cadeteria.accesoDatosPedidos.Obtener("C:\\Repositorios-Taller2-2023\\tl2-tp4-2023-emmanuelbilkis\\CadeteriaApi\\Datos\\Pedidos.json");
             }
             return cadeteria;
@@ -70,6 +72,12 @@ namespace _Cadeteria
             accesoDatosPedidos.Guardar(cadeteria.Pedidos);
         }
 
+        public void agregarCadete(Cadete cadete) 
+        {
+            cadeteria.Cadetes.Add(cadete);
+            accesoDatosCadetes.Guardar(cadeteria.Cadetes);
+            
+        }
         public void AsignarCadeteAPedido(int idCadete, int idPedido) 
         {
             try

@@ -1,20 +1,5 @@
-[
-  {
-    "Id": 1,
-    "Nombre": "Hector",
-    "Direccion": "Laprida 452",
-    "Telefono": 2544554
-  },
-  {
-    "Id": 2,
-    "Nombre": "Martin",
-    "Direccion": "Cuba 567",
-    "Telefono": 23434
-  },
-  {
-    "Id": 3,
-    "Nombre": "Lautaro",
-    "Direccion": "La Rioja 45",
+[{"Id":1,"Nombre":"Hector","Direccion":"Laprida 452","Telefono":2544554},{"Id":2,"Nombre":"Martin","Direccion":"Cuba 567","Telefono":23434},{"Id":3,"Nombre":"Lautaro","Direccion":"La Rioja 45","Telefono":343254324},{"Id":45,"Nombre":"nuevito","Direccion":"calle 345","Telefono":456}]
+ 45",
     "Telefono": 343254324
   }
 ]
